@@ -1,0 +1,362 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Renal & Pharmacokinetic Domain Contracts",
+  "description": "Pydantic-generated schemas for CKD-EPI, Cockcroft-Gault, and AKI indices",
+  "models": {
+    "CKDEPIInput": {
+      "$ref": "#/$defs/CKDEPIInput"
+    },
+    "CKDEPIOutput": {
+      "$ref": "#/$defs/CKDEPIOutput"
+    },
+    "CockcroftGaultInput": {
+      "$ref": "#/$defs/CockcroftGaultInput"
+    },
+    "CockcroftGaultOutput": {
+      "$ref": "#/$defs/CockcroftGaultOutput"
+    },
+    "AKIIndicesInput": {
+      "$ref": "#/$defs/AKIIndicesInput"
+    },
+    "AKIIndicesOutput": {
+      "$ref": "#/$defs/AKIIndicesOutput"
+    }
+  },
+  "$defs": {
+    "AKIIndicesInput": {
+      "additionalProperties": false,
+      "properties": {
+        "urine_sodium_meq_l": {
+          "maximum": 300.0,
+          "minimum": 0.0,
+          "title": "Urine Sodium Meq L",
+          "type": "number"
+        },
+        "serum_sodium_meq_l": {
+          "maximum": 180.0,
+          "minimum": 100.0,
+          "title": "Serum Sodium Meq L",
+          "type": "number"
+        },
+        "urine_creatinine_mg_dl": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 500.0,
+          "title": "Urine Creatinine Mg Dl",
+          "type": "number"
+        },
+        "serum_creatinine_mg_dl": {
+          "maximum": 30.0,
+          "minimum": 0.1,
+          "title": "Serum Creatinine Mg Dl",
+          "type": "number"
+        },
+        "on_diuretics": {
+          "default": false,
+          "title": "On Diuretics",
+          "type": "boolean"
+        },
+        "serum_bun_mg_dl": {
+          "anyOf": [
+            {
+              "maximum": 200.0,
+              "minimum": 1.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Serum Bun Mg Dl"
+        },
+        "urine_urea_mg_dl": {
+          "anyOf": [
+            {
+              "maximum": 5000.0,
+              "minimum": 1.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Urine Urea Mg Dl"
+        }
+      },
+      "required": [
+        "urine_sodium_meq_l",
+        "serum_sodium_meq_l",
+        "urine_creatinine_mg_dl",
+        "serum_creatinine_mg_dl"
+      ],
+      "title": "AKIIndicesInput",
+      "type": "object"
+    },
+    "AKIIndicesOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "%"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "fena_percent": {
+          "title": "Fena Percent",
+          "type": "number"
+        },
+        "feurea_percent": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Feurea Percent"
+        },
+        "aki_etiology": {
+          "enum": [
+            "prerenal",
+            "atn",
+            "indeterminate",
+            "diuretic_confounded"
+          ],
+          "title": "Aki Etiology",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fena_percent",
+        "feurea_percent",
+        "aki_etiology"
+      ],
+      "title": "AKIIndicesOutput",
+      "type": "object"
+    },
+    "CKDEPIInput": {
+      "additionalProperties": false,
+      "properties": {
+        "scr_mg_dl": {
+          "maximum": 30.0,
+          "minimum": 0.1,
+          "title": "Scr Mg Dl",
+          "type": "number"
+        },
+        "age_years": {
+          "maximum": 120.0,
+          "minimum": 18.0,
+          "title": "Age Years",
+          "type": "number"
+        },
+        "sex": {
+          "enum": [
+            "male",
+            "female"
+          ],
+          "title": "Sex",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scr_mg_dl",
+        "age_years",
+        "sex"
+      ],
+      "title": "CKDEPIInput",
+      "type": "object"
+    },
+    "CKDEPIOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "mL/min/1.73m2"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "egfr_ml_min_per_173m2": {
+          "title": "Egfr Ml Min Per 173M2",
+          "type": "number"
+        },
+        "kdigo_stage": {
+          "enum": [
+            "G1",
+            "G2",
+            "G3a",
+            "G3b",
+            "G4",
+            "G5"
+          ],
+          "title": "Kdigo Stage",
+          "type": "string"
+        }
+      },
+      "required": [
+        "egfr_ml_min_per_173m2",
+        "kdigo_stage"
+      ],
+      "title": "CKDEPIOutput",
+      "type": "object"
+    },
+    "CockcroftGaultInput": {
+      "additionalProperties": false,
+      "properties": {
+        "age_years": {
+          "maximum": 120.0,
+          "minimum": 18.0,
+          "title": "Age Years",
+          "type": "number"
+        },
+        "sex": {
+          "enum": [
+            "male",
+            "female"
+          ],
+          "title": "Sex",
+          "type": "string"
+        },
+        "weight_kg": {
+          "maximum": 350.0,
+          "minimum": 20.0,
+          "title": "Weight Kg",
+          "type": "number"
+        },
+        "height_cm": {
+          "maximum": 250.0,
+          "minimum": 100.0,
+          "title": "Height Cm",
+          "type": "number"
+        },
+        "scr_mg_dl": {
+          "maximum": 30.0,
+          "minimum": 0.1,
+          "title": "Scr Mg Dl",
+          "type": "number"
+        }
+      },
+      "required": [
+        "age_years",
+        "sex",
+        "weight_kg",
+        "height_cm",
+        "scr_mg_dl"
+      ],
+      "title": "CockcroftGaultInput",
+      "type": "object"
+    },
+    "CockcroftGaultOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "mL/min"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "bmi": {
+          "title": "Bmi",
+          "type": "number"
+        },
+        "ibw_kg": {
+          "title": "Ibw Kg",
+          "type": "number"
+        },
+        "adjbw_kg": {
+          "title": "Adjbw Kg",
+          "type": "number"
+        },
+        "selected_weight_kg": {
+          "title": "Selected Weight Kg",
+          "type": "number"
+        },
+        "weight_selection_rule": {
+          "enum": [
+            "actual",
+            "ibw",
+            "adjbw"
+          ],
+          "title": "Weight Selection Rule",
+          "type": "string"
+        },
+        "crcl_ml_min": {
+          "title": "Crcl Ml Min",
+          "type": "number"
+        }
+      },
+      "required": [
+        "bmi",
+        "ibw_kg",
+        "adjbw_kg",
+        "selected_weight_kg",
+        "weight_selection_rule",
+        "crcl_ml_min"
+      ],
+      "title": "CockcroftGaultOutput",
+      "type": "object"
+    },
+    "UCUMUnit": {
+      "description": "Allowed UCUM-style units for v1 output models.",
+      "enum": [
+        "mL/min/1.73m2",
+        "mL/min",
+        "%",
+        "mEq/L",
+        "mg/dL",
+        "mOsm/kg",
+        "L",
+        "ms",
+        "mmHg",
+        "L/min/m2",
+        "score",
+        "ng/mL FEU"
+      ],
+      "title": "UCUMUnit",
+      "type": "string"
+    }
+  }
+}

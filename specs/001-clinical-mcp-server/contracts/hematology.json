@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hematology & Thrombosis Domain Contracts",
+  "description": "Pydantic-generated schemas for Wells PE and age-adjusted D-dimer",
+  "models": {
+    "PEDDimerInput": {
+      "$ref": "#/$defs/PEDDimerInput"
+    },
+    "PEDDimerOutput": {
+      "$ref": "#/$defs/PEDDimerOutput"
+    }
+  },
+  "$defs": {
+    "PEDDimerInput": {
+      "additionalProperties": false,
+      "properties": {
+        "age_years": {
+          "maximum": 120.0,
+          "minimum": 18.0,
+          "title": "Age Years",
+          "type": "number"
+        },
+        "d_dimer_ng_ml_feu": {
+          "maximum": 50000.0,
+          "minimum": 0.0,
+          "title": "D Dimer Ng Ml Feu",
+          "type": "number"
+        },
+        "wells_score": {
+          "maximum": 12.5,
+          "minimum": 0.0,
+          "title": "Wells Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "age_years",
+        "d_dimer_ng_ml_feu",
+        "wells_score"
+      ],
+      "title": "PEDDimerInput",
+      "type": "object"
+    },
+    "PEDDimerOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "ng/mL FEU"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "age_adjusted_threshold_ng_ml": {
+          "title": "Age Adjusted Threshold Ng Ml",
+          "type": "number"
+        },
+        "ddimer_positive": {
+          "title": "Ddimer Positive",
+          "type": "boolean"
+        },
+        "ctpa_indicated": {
+          "title": "Ctpa Indicated",
+          "type": "boolean"
+        },
+        "wells_probability": {
+          "enum": [
+            "low",
+            "moderate",
+            "high"
+          ],
+          "title": "Wells Probability",
+          "type": "string"
+        }
+      },
+      "required": [
+        "age_adjusted_threshold_ng_ml",
+        "ddimer_positive",
+        "ctpa_indicated",
+        "wells_probability"
+      ],
+      "title": "PEDDimerOutput",
+      "type": "object"
+    },
+    "UCUMUnit": {
+      "description": "Allowed UCUM-style units for v1 output models.",
+      "enum": [
+        "mL/min/1.73m2",
+        "mL/min",
+        "%",
+        "mEq/L",
+        "mg/dL",
+        "mOsm/kg",
+        "L",
+        "ms",
+        "mmHg",
+        "L/min/m2",
+        "score",
+        "ng/mL FEU"
+      ],
+      "title": "UCUMUnit",
+      "type": "string"
+    }
+  }
+}

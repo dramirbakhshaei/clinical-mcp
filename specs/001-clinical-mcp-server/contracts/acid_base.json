@@ -1,0 +1,480 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Acid-Base, Electrolytes & Osmolality Domain Contracts",
+  "description": "Pydantic-generated schemas for acid-base, osmolality, and corrected calcium",
+  "models": {
+    "AcidBaseInput": {
+      "$ref": "#/$defs/AcidBaseInput"
+    },
+    "AcidBaseOutput": {
+      "$ref": "#/$defs/AcidBaseOutput"
+    },
+    "OsmolalityInput": {
+      "$ref": "#/$defs/OsmolalityInput"
+    },
+    "OsmolalityOutput": {
+      "$ref": "#/$defs/OsmolalityOutput"
+    },
+    "CalciumInput": {
+      "$ref": "#/$defs/CalciumInput"
+    },
+    "CalciumOutput": {
+      "$ref": "#/$defs/CalciumOutput"
+    }
+  },
+  "$defs": {
+    "AcidBaseDisorder": {
+      "enum": [
+        "NORMAL",
+        "PURE_HAGMA",
+        "PURE_NAGMA",
+        "MIXED_HAGMA_NAGMA",
+        "HAGMA_PLUS_METABOLIC_ALKALOSIS_OR_CHRONIC_RESP_ACIDOSIS",
+        "UNCOMPENSATED_RESPIRATORY_ACIDOSIS",
+        "SUPERIMPOSED_RESPIRATORY_ALKALOSIS"
+      ],
+      "title": "AcidBaseDisorder",
+      "type": "string"
+    },
+    "AcidBaseInput": {
+      "additionalProperties": false,
+      "properties": {
+        "na_meq_l": {
+          "maximum": 180.0,
+          "minimum": 100.0,
+          "title": "Na Meq L",
+          "type": "number"
+        },
+        "cl_meq_l": {
+          "maximum": 150.0,
+          "minimum": 50.0,
+          "title": "Cl Meq L",
+          "type": "number"
+        },
+        "hco3_meq_l": {
+          "maximum": 60.0,
+          "minimum": 1.0,
+          "title": "Hco3 Meq L",
+          "type": "number"
+        },
+        "albumin_g_dl": {
+          "default": 4.0,
+          "maximum": 6.0,
+          "minimum": 0.5,
+          "title": "Albumin G Dl",
+          "type": "number"
+        },
+        "glucose_mg_dl": {
+          "default": 100.0,
+          "maximum": 2000.0,
+          "minimum": 0.0,
+          "title": "Glucose Mg Dl",
+          "type": "number"
+        },
+        "paco2_mmhg": {
+          "anyOf": [
+            {
+              "maximum": 100.0,
+              "minimum": 10.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Paco2 Mmhg"
+        },
+        "ph": {
+          "anyOf": [
+            {
+              "maximum": 7.8,
+              "minimum": 6.5,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ph"
+        },
+        "lactate_mmol_l": {
+          "anyOf": [
+            {
+              "maximum": 30.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lactate Mmol L"
+        },
+        "prior_known_disorder": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AcidBaseDisorder"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "na_meq_l",
+        "cl_meq_l",
+        "hco3_meq_l"
+      ],
+      "title": "AcidBaseInput",
+      "type": "object"
+    },
+    "AcidBaseOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "mEq/L"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "raw_anion_gap": {
+          "title": "Raw Anion Gap",
+          "type": "number"
+        },
+        "albumin_corrected_anion_gap": {
+          "title": "Albumin Corrected Anion Gap",
+          "type": "number"
+        },
+        "delta_ratio": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Delta Ratio"
+        },
+        "winters_expected_paco2_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Winters Expected Paco2 Min"
+        },
+        "winters_expected_paco2_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Winters Expected Paco2 Max"
+        },
+        "disorders": {
+          "items": {
+            "$ref": "#/$defs/AcidBaseDisorder"
+          },
+          "title": "Disorders",
+          "type": "array"
+        },
+        "corrected_na_katz": {
+          "title": "Corrected Na Katz",
+          "type": "number"
+        },
+        "corrected_na_hillier": {
+          "title": "Corrected Na Hillier",
+          "type": "number"
+        },
+        "active_na_correction_method": {
+          "enum": [
+            "katz",
+            "hillier"
+          ],
+          "title": "Active Na Correction Method",
+          "type": "string"
+        }
+      },
+      "required": [
+        "raw_anion_gap",
+        "albumin_corrected_anion_gap",
+        "delta_ratio",
+        "winters_expected_paco2_min",
+        "winters_expected_paco2_max",
+        "disorders",
+        "corrected_na_katz",
+        "corrected_na_hillier",
+        "active_na_correction_method"
+      ],
+      "title": "AcidBaseOutput",
+      "type": "object"
+    },
+    "CalciumInput": {
+      "additionalProperties": false,
+      "properties": {
+        "total_ca_mg_dl": {
+          "maximum": 15.0,
+          "minimum": 4.0,
+          "title": "Total Ca Mg Dl",
+          "type": "number"
+        },
+        "albumin_g_dl": {
+          "maximum": 6.0,
+          "minimum": 0.5,
+          "title": "Albumin G Dl",
+          "type": "number"
+        }
+      },
+      "required": [
+        "total_ca_mg_dl",
+        "albumin_g_dl"
+      ],
+      "title": "CalciumInput",
+      "type": "object"
+    },
+    "CalciumOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "mg/dL"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "corrected_ca_mg_dl": {
+          "title": "Corrected Ca Mg Dl",
+          "type": "number"
+        }
+      },
+      "required": [
+        "corrected_ca_mg_dl"
+      ],
+      "title": "CalciumOutput",
+      "type": "object"
+    },
+    "OsmolalityInput": {
+      "additionalProperties": false,
+      "properties": {
+        "na_meq_l": {
+          "maximum": 180.0,
+          "minimum": 100.0,
+          "title": "Na Meq L",
+          "type": "number"
+        },
+        "glucose_mg_dl": {
+          "maximum": 2000.0,
+          "minimum": 0.0,
+          "title": "Glucose Mg Dl",
+          "type": "number"
+        },
+        "bun_mg_dl": {
+          "maximum": 200.0,
+          "minimum": 1.0,
+          "title": "Bun Mg Dl",
+          "type": "number"
+        },
+        "measured_osmolality_mosm_kg": {
+          "anyOf": [
+            {
+              "maximum": 1000.0,
+              "minimum": 100.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Osmolality Mosm Kg"
+        },
+        "ethanol_mg_dl": {
+          "anyOf": [
+            {
+              "maximum": 1000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ethanol Mg Dl"
+        },
+        "weight_kg": {
+          "anyOf": [
+            {
+              "maximum": 350.0,
+              "minimum": 20.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weight Kg"
+        },
+        "sex": {
+          "anyOf": [
+            {
+              "enum": [
+                "male",
+                "female"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sex"
+        },
+        "age_years": {
+          "anyOf": [
+            {
+              "maximum": 120.0,
+              "minimum": 18.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Age Years"
+        }
+      },
+      "required": [
+        "na_meq_l",
+        "glucose_mg_dl",
+        "bun_mg_dl"
+      ],
+      "title": "OsmolalityInput",
+      "type": "object"
+    },
+    "OsmolalityOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "mOsm/kg"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "calculated_osmolality_mosm_kg": {
+          "title": "Calculated Osmolality Mosm Kg",
+          "type": "number"
+        },
+        "osmolar_gap_mosm_kg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Osmolar Gap Mosm Kg"
+        },
+        "free_water_deficit_l": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Free Water Deficit L"
+        },
+        "toxic_alcohol_flag": {
+          "title": "Toxic Alcohol Flag",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "calculated_osmolality_mosm_kg",
+        "osmolar_gap_mosm_kg",
+        "free_water_deficit_l",
+        "toxic_alcohol_flag"
+      ],
+      "title": "OsmolalityOutput",
+      "type": "object"
+    },
+    "UCUMUnit": {
+      "description": "Allowed UCUM-style units for v1 output models.",
+      "enum": [
+        "mL/min/1.73m2",
+        "mL/min",
+        "%",
+        "mEq/L",
+        "mg/dL",
+        "mOsm/kg",
+        "L",
+        "ms",
+        "mmHg",
+        "L/min/m2",
+        "score",
+        "ng/mL FEU"
+      ],
+      "title": "UCUMUnit",
+      "type": "string"
+    }
+  }
+}

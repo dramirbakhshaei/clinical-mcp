@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cardiology Domain Contracts",
+  "description": "Pydantic-generated schemas for QTc and hemodynamics",
+  "models": {
+    "QTcInput": {
+      "$ref": "#/$defs/QTcInput"
+    },
+    "QTcOutput": {
+      "$ref": "#/$defs/QTcOutput"
+    },
+    "HemodynamicsInput": {
+      "$ref": "#/$defs/HemodynamicsInput"
+    },
+    "HemodynamicsOutput": {
+      "$ref": "#/$defs/HemodynamicsOutput"
+    }
+  },
+  "$defs": {
+    "HemodynamicsInput": {
+      "additionalProperties": false,
+      "properties": {
+        "sbp_mmhg": {
+          "maximum": 300.0,
+          "minimum": 30.0,
+          "title": "Sbp Mmhg",
+          "type": "number"
+        },
+        "dbp_mmhg": {
+          "maximum": 200.0,
+          "minimum": 20.0,
+          "title": "Dbp Mmhg",
+          "type": "number"
+        },
+        "hr_bpm": {
+          "maximum": 300.0,
+          "minimum": 20.0,
+          "title": "Hr Bpm",
+          "type": "number"
+        }
+      },
+      "required": [
+        "sbp_mmhg",
+        "dbp_mmhg",
+        "hr_bpm"
+      ],
+      "title": "HemodynamicsInput",
+      "type": "object"
+    },
+    "HemodynamicsOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "mmHg"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "map_mmhg": {
+          "title": "Map Mmhg",
+          "type": "number"
+        },
+        "pulse_pressure_mmhg": {
+          "title": "Pulse Pressure Mmhg",
+          "type": "number"
+        },
+        "shock_index": {
+          "title": "Shock Index",
+          "type": "number"
+        },
+        "modified_shock_index": {
+          "title": "Modified Shock Index",
+          "type": "number"
+        },
+        "occult_shock": {
+          "title": "Occult Shock",
+          "type": "boolean"
+        },
+        "high_risk": {
+          "title": "High Risk",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "map_mmhg",
+        "pulse_pressure_mmhg",
+        "shock_index",
+        "modified_shock_index",
+        "occult_shock",
+        "high_risk"
+      ],
+      "title": "HemodynamicsOutput",
+      "type": "object"
+    },
+    "QTcInput": {
+      "additionalProperties": false,
+      "properties": {
+        "qt_ms": {
+          "maximum": 800.0,
+          "minimum": 150.0,
+          "title": "Qt Ms",
+          "type": "number"
+        },
+        "hr_bpm": {
+          "maximum": 300.0,
+          "minimum": 20.0,
+          "title": "Hr Bpm",
+          "type": "number"
+        },
+        "sex": {
+          "default": "male",
+          "enum": [
+            "male",
+            "female"
+          ],
+          "title": "Sex",
+          "type": "string"
+        },
+        "qrs_ms": {
+          "default": 90.0,
+          "maximum": 200.0,
+          "minimum": 40.0,
+          "title": "Qrs Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "qt_ms",
+        "hr_bpm"
+      ],
+      "title": "QTcInput",
+      "type": "object"
+    },
+    "QTcOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "ms"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "qrs_widened": {
+          "title": "Qrs Widened",
+          "type": "boolean"
+        },
+        "bogossian_modified_qt_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Bogossian Modified Qt Ms"
+        },
+        "qtc_bazett_ms": {
+          "title": "Qtc Bazett Ms",
+          "type": "number"
+        },
+        "qtc_fridericia_ms": {
+          "title": "Qtc Fridericia Ms",
+          "type": "number"
+        },
+        "qtc_framingham_ms": {
+          "title": "Qtc Framingham Ms",
+          "type": "number"
+        },
+        "recommended_primary_metric": {
+          "title": "Recommended Primary Metric",
+          "type": "string"
+        },
+        "recommended_qtc_ms": {
+          "title": "Recommended Qtc Ms",
+          "type": "number"
+        },
+        "torsades_risk": {
+          "title": "Torsades Risk",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "qrs_widened",
+        "bogossian_modified_qt_ms",
+        "qtc_bazett_ms",
+        "qtc_fridericia_ms",
+        "qtc_framingham_ms",
+        "recommended_primary_metric",
+        "recommended_qtc_ms",
+        "torsades_risk"
+      ],
+      "title": "QTcOutput",
+      "type": "object"
+    },
+    "UCUMUnit": {
+      "description": "Allowed UCUM-style units for v1 output models.",
+      "enum": [
+        "mL/min/1.73m2",
+        "mL/min",
+        "%",
+        "mEq/L",
+        "mg/dL",
+        "mOsm/kg",
+        "L",
+        "ms",
+        "mmHg",
+        "L/min/m2",
+        "score",
+        "ng/mL FEU"
+      ],
+      "title": "UCUMUnit",
+      "type": "string"
+    }
+  }
+}

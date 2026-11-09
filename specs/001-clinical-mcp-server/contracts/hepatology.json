@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hepatology Domain Contracts",
+  "description": "Pydantic-generated schemas for MELD and FIB-4",
+  "models": {
+    "MELDInput": {
+      "$ref": "#/$defs/MELDInput"
+    },
+    "MELDOutput": {
+      "$ref": "#/$defs/MELDOutput"
+    },
+    "FIB4Input": {
+      "$ref": "#/$defs/FIB4Input"
+    },
+    "FIB4Output": {
+      "$ref": "#/$defs/FIB4Output"
+    }
+  },
+  "$defs": {
+    "ClampAuditTrail": {
+      "properties": {
+        "parameter": {
+          "title": "Parameter",
+          "type": "string"
+        },
+        "original_value": {
+          "title": "Original Value",
+          "type": "number"
+        },
+        "clamped_value": {
+          "title": "Clamped Value",
+          "type": "number"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        }
+      },
+      "required": [
+        "parameter",
+        "original_value",
+        "clamped_value",
+        "rule"
+      ],
+      "title": "ClampAuditTrail",
+      "type": "object"
+    },
+    "FIB4Input": {
+      "additionalProperties": false,
+      "properties": {
+        "age_years": {
+          "maximum": 120.0,
+          "minimum": 18.0,
+          "title": "Age Years",
+          "type": "number"
+        },
+        "ast_u_l": {
+          "maximum": 10000.0,
+          "minimum": 1.0,
+          "title": "Ast U L",
+          "type": "number"
+        },
+        "alt_u_l": {
+          "maximum": 10000.0,
+          "minimum": 1.0,
+          "title": "Alt U L",
+          "type": "number"
+        },
+        "platelets_10e9_l": {
+          "maximum": 1000.0,
+          "minimum": 10.0,
+          "title": "Platelets 10E9 L",
+          "type": "number"
+        }
+      },
+      "required": [
+        "age_years",
+        "ast_u_l",
+        "alt_u_l",
+        "platelets_10e9_l"
+      ],
+      "title": "FIB4Input",
+      "type": "object"
+    },
+    "FIB4Output": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "score"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "fib4_index": {
+          "title": "Fib4 Index",
+          "type": "number"
+        },
+        "fibrosis_risk": {
+          "enum": [
+            "low",
+            "indeterminate",
+            "high"
+          ],
+          "title": "Fibrosis Risk",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fib4_index",
+        "fibrosis_risk"
+      ],
+      "title": "FIB4Output",
+      "type": "object"
+    },
+    "MELDInput": {
+      "additionalProperties": false,
+      "properties": {
+        "bilirubin_mg_dl": {
+          "maximum": 60.0,
+          "minimum": 0.1,
+          "title": "Bilirubin Mg Dl",
+          "type": "number"
+        },
+        "inr": {
+          "maximum": 10.0,
+          "minimum": 0.5,
+          "title": "Inr",
+          "type": "number"
+        },
+        "creatinine_mg_dl": {
+          "maximum": 15.0,
+          "minimum": 0.1,
+          "title": "Creatinine Mg Dl",
+          "type": "number"
+        },
+        "sodium_meq_l": {
+          "maximum": 180.0,
+          "minimum": 100.0,
+          "title": "Sodium Meq L",
+          "type": "number"
+        },
+        "albumin_g_dl": {
+          "maximum": 6.0,
+          "minimum": 0.5,
+          "title": "Albumin G Dl",
+          "type": "number"
+        },
+        "sex": {
+          "default": "male",
+          "enum": [
+            "male",
+            "female"
+          ],
+          "title": "Sex",
+          "type": "string"
+        },
+        "dialysis": {
+          "default": false,
+          "title": "Dialysis",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "bilirubin_mg_dl",
+        "inr",
+        "creatinine_mg_dl",
+        "sodium_meq_l",
+        "albumin_g_dl"
+      ],
+      "title": "MELDInput",
+      "type": "object"
+    },
+    "MELDOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "score"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "meld_na": {
+          "title": "Meld Na",
+          "type": "number"
+        },
+        "meld_3": {
+          "title": "Meld 3",
+          "type": "number"
+        },
+        "mortality_bracket_meld_na": {
+          "title": "Mortality Bracket Meld Na",
+          "type": "string"
+        },
+        "mortality_bracket_meld_3": {
+          "title": "Mortality Bracket Meld 3",
+          "type": "string"
+        },
+        "clamps_applied": {
+          "items": {
+            "$ref": "#/$defs/ClampAuditTrail"
+          },
+          "title": "Clamps Applied",
+          "type": "array"
+        }
+      },
+      "required": [
+        "meld_na",
+        "meld_3",
+        "mortality_bracket_meld_na",
+        "mortality_bracket_meld_3",
+        "clamps_applied"
+      ],
+      "title": "MELDOutput",
+      "type": "object"
+    },
+    "UCUMUnit": {
+      "description": "Allowed UCUM-style units for v1 output models.",
+      "enum": [
+        "mL/min/1.73m2",
+        "mL/min",
+        "%",
+        "mEq/L",
+        "mg/dL",
+        "mOsm/kg",
+        "L",
+        "ms",
+        "mmHg",
+        "L/min/m2",
+        "score",
+        "ng/mL FEU"
+      ],
+      "title": "UCUMUnit",
+      "type": "string"
+    }
+  }
+}

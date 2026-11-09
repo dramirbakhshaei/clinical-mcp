@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Critical Care, Sepsis & Respiratory Domain Contracts",
+  "description": "Pydantic-generated schemas for oxygenation and qSOFA/SIRS",
+  "models": {
+    "OxygenationInput": {
+      "$ref": "#/$defs/OxygenationInput"
+    },
+    "OxygenationOutput": {
+      "$ref": "#/$defs/OxygenationOutput"
+    },
+    "QSOFASIRSInput": {
+      "$ref": "#/$defs/QSOFASIRSInput"
+    },
+    "QSOFASIRSOutput": {
+      "$ref": "#/$defs/QSOFASIRSOutput"
+    }
+  },
+  "$defs": {
+    "OxygenationInput": {
+      "additionalProperties": false,
+      "properties": {
+        "pao2_mmhg": {
+          "maximum": 600.0,
+          "minimum": 20.0,
+          "title": "Pao2 Mmhg",
+          "type": "number"
+        },
+        "paco2_mmhg": {
+          "maximum": 100.0,
+          "minimum": 10.0,
+          "title": "Paco2 Mmhg",
+          "type": "number"
+        },
+        "fio2": {
+          "maximum": 1.0,
+          "minimum": 0.21,
+          "title": "Fio2",
+          "type": "number"
+        },
+        "age_years": {
+          "maximum": 120.0,
+          "minimum": 18.0,
+          "title": "Age Years",
+          "type": "number"
+        },
+        "barometric_pressure_mmhg": {
+          "default": 760.0,
+          "maximum": 800.0,
+          "minimum": 500.0,
+          "title": "Barometric Pressure Mmhg",
+          "type": "number"
+        },
+        "respiratory_quotient": {
+          "default": 0.8,
+          "maximum": 1.0,
+          "minimum": 0.7,
+          "title": "Respiratory Quotient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "pao2_mmhg",
+        "paco2_mmhg",
+        "fio2",
+        "age_years"
+      ],
+      "title": "OxygenationInput",
+      "type": "object"
+    },
+    "OxygenationOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "mmHg"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "pao2_alveolar_mmhg": {
+          "title": "Pao2 Alveolar Mmhg",
+          "type": "number"
+        },
+        "aa_gradient_mmhg": {
+          "title": "Aa Gradient Mmhg",
+          "type": "number"
+        },
+        "expected_aa_gradient_mmhg": {
+          "title": "Expected Aa Gradient Mmhg",
+          "type": "number"
+        },
+        "pf_ratio": {
+          "title": "Pf Ratio",
+          "type": "number"
+        },
+        "ards_stage": {
+          "enum": [
+            "none",
+            "mild",
+            "moderate",
+            "severe"
+          ],
+          "title": "Ards Stage",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pao2_alveolar_mmhg",
+        "aa_gradient_mmhg",
+        "expected_aa_gradient_mmhg",
+        "pf_ratio",
+        "ards_stage"
+      ],
+      "title": "OxygenationOutput",
+      "type": "object"
+    },
+    "QSOFASIRSInput": {
+      "additionalProperties": false,
+      "properties": {
+        "rr_bpm": {
+          "maximum": 60.0,
+          "minimum": 5.0,
+          "title": "Rr Bpm",
+          "type": "number"
+        },
+        "sbp_mmhg": {
+          "maximum": 300.0,
+          "minimum": 30.0,
+          "title": "Sbp Mmhg",
+          "type": "number"
+        },
+        "gcs_score": {
+          "maximum": 15,
+          "minimum": 3,
+          "title": "Gcs Score",
+          "type": "integer"
+        },
+        "temp_celsius": {
+          "anyOf": [
+            {
+              "maximum": 45.0,
+              "minimum": 20.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temp Celsius"
+        },
+        "hr_bpm": {
+          "anyOf": [
+            {
+              "maximum": 300.0,
+              "minimum": 20.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hr Bpm"
+        },
+        "wbc_10e9_l": {
+          "anyOf": [
+            {
+              "maximum": 200.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wbc 10E9 L"
+        },
+        "paco2_mmhg": {
+          "anyOf": [
+            {
+              "maximum": 100.0,
+              "minimum": 10.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Paco2 Mmhg"
+        },
+        "lactate_mmol_l": {
+          "anyOf": [
+            {
+              "maximum": 30.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lactate Mmol L"
+        }
+      },
+      "required": [
+        "rr_bpm",
+        "sbp_mmhg",
+        "gcs_score"
+      ],
+      "title": "QSOFASIRSInput",
+      "type": "object"
+    },
+    "QSOFASIRSOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/UCUMUnit",
+          "default": "score"
+        },
+        "clinical_pearls_and_actions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Clinical Pearls And Actions",
+          "type": "array"
+        },
+        "llm_trap_prevented": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Llm Trap Prevented",
+          "type": "array"
+        },
+        "qsofa_score": {
+          "title": "Qsofa Score",
+          "type": "integer"
+        },
+        "sirs_score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sirs Score"
+        },
+        "sepsis_screen": {
+          "enum": [
+            "low",
+            "moderate",
+            "high"
+          ],
+          "title": "Sepsis Screen",
+          "type": "string"
+        }
+      },
+      "required": [
+        "qsofa_score",
+        "sirs_score",
+        "sepsis_screen"
+      ],
+      "title": "QSOFASIRSOutput",
+      "type": "object"
+    },
+    "UCUMUnit": {
+      "description": "Allowed UCUM-style units for v1 output models.",
+      "enum": [
+        "mL/min/1.73m2",
+        "mL/min",
+        "%",
+        "mEq/L",
+        "mg/dL",
+        "mOsm/kg",
+        "L",
+        "ms",
+        "mmHg",
+        "L/min/m2",
+        "score",
+        "ng/mL FEU"
+      ],
+      "title": "UCUMUnit",
+      "type": "string"
+    }
+  }
+}
